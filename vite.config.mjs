@@ -1,11 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from 'node:path'
 import autoprefixer from 'autoprefixer'
 
 export default defineConfig(() => {
   return {
-    base: './',
+    base: '/',
     build: {
       outDir: 'build',
     },
@@ -32,10 +31,14 @@ export default defineConfig(() => {
     plugins: [react()],
     resolve: {
       alias: [
-        {
-          find: 'src/',
-          replacement: `${path.resolve(__dirname, 'src')}/`,
-        },
+        { find: 'src', replacement: '/src' },
+        { find: 'components', replacement: '/src/components' },
+        { find: 'services', replacement: '/src/services' },
+        { find: 'context', replacement: '/src/context' },
+        { find: 'views', replacement: '/src/views' },
+        { find: 'layout', replacement: '/src/layout' },
+        { find: 'assets', replacement: '/src/assets' },
+        { find: 'scss', replacement: '/src/scss' },
       ],
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.scss'],
     },
