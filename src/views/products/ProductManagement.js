@@ -91,6 +91,7 @@ const ProductManagementPage = () => {
                   <CTableHeaderCell>Nama Produk</CTableHeaderCell>
                   <CTableHeaderCell>Vendor</CTableHeaderCell>
                   <CTableHeaderCell>Stok Total</CTableHeaderCell>
+                  <CTableHeaderCell>Batas Min. Stok</CTableHeaderCell>
                   <CTableHeaderCell>Aksi</CTableHeaderCell>
                 </CTableRow>
               </CTableHead>
@@ -101,6 +102,7 @@ const ProductManagementPage = () => {
                     <CTableDataCell>{product.name}</CTableDataCell>
                     <CTableDataCell>{product.vendor ? product.vendor.name : 'N/A'}</CTableDataCell>
                     <CTableDataCell>{product.total_stock}</CTableDataCell>
+                    <CTableDataCell>{product.min_stock_level}</CTableDataCell>
                     <CTableDataCell>
                       <CButton color="info" size="sm" onClick={() => handleEdit(product)}>
                         <CIcon icon={cilPencil} />

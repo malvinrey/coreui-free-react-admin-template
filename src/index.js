@@ -7,6 +7,7 @@ import 'regenerator-runtime/runtime'
 import App from './App'
 import store from './store'
 import { AuthProvider } from './context/AuthContext'
+import { NotificationProvider } from './context/NotificationContext'
 
 const container = document.getElementById('root')
 const root = createRoot(container)
@@ -14,7 +15,9 @@ const root = createRoot(container)
 root.render(
   <Provider store={store}>
     <AuthProvider>
-      <App />
+      <NotificationProvider>
+        <App />
+      </NotificationProvider>
     </AuthProvider>
   </Provider>,
 )

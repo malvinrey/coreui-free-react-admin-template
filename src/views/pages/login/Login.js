@@ -29,7 +29,7 @@ const Login = () => {
     setError('')
     try {
       await login(email, password)
-      navigate('/dashboard') // Arahkan ke dashboard CoreUI
+      navigate('/')
     } catch (err) {
       setError('Email atau password salah.')
     }

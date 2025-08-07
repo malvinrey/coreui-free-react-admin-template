@@ -10,6 +10,7 @@ import {
   CFormSelect,
   CFormInput,
   CFormTextarea,
+  CFormLabel,
 } from '@coreui/react'
 import { createProduct, updateProduct } from '../services/Api' // Sesuaikan path
 
@@ -28,10 +29,11 @@ const ProductForm = ({ visible, onClose, onSuccess, product, vendors }) => {
           sku: product.sku,
           description: product.description || '',
           vendor_id: product.vendor_id || '',
+          min_stock_level: product.min_stock_level || 0,
         })
       } else {
         // Reset form untuk mode 'create'
-        setFormData({ name: '', sku: '', description: '', vendor_id: '' })
+        setFormData({ name: '', sku: '', description: '', vendor_id: '', min_stock_level: 0 })
       }
       setErrors({})
     }
@@ -108,6 +110,18 @@ const ProductForm = ({ visible, onClose, onSuccess, product, vendors }) => {
                 </option>
               ))}
           </CFormSelect>
+
+          <div className="mb-3">
+            <CFormLabel htmlFor="minStockInput">Batas Stok Minimum</CFormLabel>
+            <CFormInput
+              type="number"
+              id="minStockInput"
+              name="min_stock_level"
+              value={formData.min_stock_level || 0}
+              onChange={handleChange}
+              min="0"
+            />
+          </div>
 
           <CFormTextarea
             name="description"

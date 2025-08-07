@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8000/api',
+  baseURL: 'http://localhost/api',
 })
 
 // Ini adalah INTERCEPTOR. Seperti "satpam" yang mencegat setiap request
@@ -12,9 +12,28 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    console.log('API Request:', config.method?.toUpperCase(), config.url, config.data)
     return config
   },
   (error) => {
+    console.error('API Request Error:', error)
+    return Promise.reject(error)
+  },
+)
+
+// Response interceptor untuk debugging
+apiClient.interceptors.response.use(
+  (response) => {
+    console.log('API Response:', response.status, response.data)
+    return response
+  },
+  (error) => {
+    console.error(
+      'API Response Error:',
+      error.response?.status,
+      error.response?.data,
+      error.message,
+    )
     return Promise.reject(error)
   },
 )

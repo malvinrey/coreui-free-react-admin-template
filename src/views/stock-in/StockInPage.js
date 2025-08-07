@@ -12,6 +12,8 @@ import {
   CFormSelect,
 } from '@coreui/react'
 import { getProducts, addStockToProduct } from '../../services/Api' // Sesuaikan path jika perlu
+import { useNotifier } from '../../context/NotificationContext'
+import { useAuth } from '../../context/AuthContext'
 
 const StockInPage = () => {
   const [products, setProducts] = useState([])
@@ -21,6 +23,8 @@ const StockInPage = () => {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
   const [loading, setLoading] = useState(true)
+  const { addToast } = useNotifier()
+  const { user } = useAuth()
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -51,13 +55,30 @@ const StockInPage = () => {
         quantity: parseInt(quantity, 10),
         received_date: receivedDate,
       })
-      setSuccess(`Stok untuk produk berhasil ditambahkan!`)
+
+      // Get product details for detailed notification
+      const selectedProductData = products.find((p) => p.id.toString() === selectedProduct)
+      const productName = selectedProductData ? selectedProductData.name : 'Unknown Product'
+      const userName = user ? user.name || user.email : 'Unknown User'
+
+      // Create detailed success message
+      const successMessage = `${userName} berhasil menambahkan ${quantity} unit ${productName} ke stok`
+      addToast(successMessage, 'success')
+
       // Reset form
       setSelectedProduct('')
       setQuantity('')
     } catch (err) {
       console.error('Gagal menambah stok:', err)
-      setError(err.response?.data?.message || 'Gagal menambah stok. Silakan coba lagi.')
+
+      // Get product details for detailed error message
+      const selectedProductData = products.find((p) => p.id.toString() === selectedProduct)
+      const productName = selectedProductData ? selectedProductData.name : 'Unknown Product'
+      const userName = user ? user.name || user.email : 'Unknown User'
+
+      // Create detailed error message
+      const errorMessage = `${userName} gagal menambahkan ${quantity} unit ${productName} ke stok: ${err.response?.data?.message || 'Terjadi kesalahan'}`
+      addToast(errorMessage, 'danger')
     }
   }
 
